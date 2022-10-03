@@ -47,4 +47,10 @@ jobs:
           }
     -
       run: curl -vvvv http://localhost:8080/index.html
-        
+
+    -
+      name: Module Testing
+      run: echo Testing
+    
+    - name: Code Style Check
+      run: echo "Style Checking by Sonarqube"
