@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        httpd: ['latest']
+      
+    name: httpd ${{ matrix.httpd }}
+
+    steps:
+    -
+      name: Checkout code
+      uses: actions/checkout@v3
+
+    -
+      name: Serve Files
+      uses: Eun/http-server-action@v1
+      with:
+        directory: ${{ github.workspace }}/src
+        port: 8080
+        no-cache: false
+        index-files: |
+          ["index.html", "index.htm"]
+        allowed-methods: |
+          ["GET", "HEAD"]
+        content-types: |
+          {
+            "appcache": "text/cache-manifest",
+            "css": "text/css",
+            "gif": "image/gif",
+            "html": "text/html",
+            "ico": "image/x-icon",
+            "jpeg": "image/jpeg",
+            "jpg": "image/jpeg",
+            "js": "text/javascript",
+            "json": "application/json",
+            "png": "image/png",
+            "txt": "text/plain",
+            "xml": "text/xml"
+          }
+    -
+      run: curl -vvvv http://localhost:8080/index.html
+        
