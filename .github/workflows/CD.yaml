@@ -20,6 +20,7 @@ jobs:
           set -x
           sudo mkdir -p /etc/docker/
           sudo mkdir -p ~/.docker/
+          sudo chomod 777 ~/.docker/
           echo '${{ secrets.HARBOR_LOGIN_CONFIG }}' | sudo tee ~/.docker/config.json
           echo '{"insecure-registries" : ["harbor.192.168.50.101.nip.io"]}' | sudo tee /etc/docker/daemon.json
 
