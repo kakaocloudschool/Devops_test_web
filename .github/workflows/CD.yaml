@@ -35,7 +35,7 @@ jobs:
         with:
           push: true
           tags: |
-            ${{ env.IMAGE_NAME }}:${{ steps.image.outputs.version }}
+            ${{ env.IMAGE_NAME }}:v1.0
           cache-from: type=gha # 여기서 gha 는 Guthub Actions 용 캐시를 의미합니다.
           cache-to: type=gha,mode=max            
 
