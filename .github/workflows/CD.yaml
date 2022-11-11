@@ -11,9 +11,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
+      -
+        name: Checkout
+        uses: actions/checkout@v3
         
+      - name: Set up Docker Context for Buildx
+        run: docker context create builders
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          version: latest
+          endpoint: builders
+
       - name: Get verion
         id: image
         run: |
@@ -34,6 +43,8 @@ jobs:
           push: true
           tags: |
             ${{ env.IMAGE_NAME }}:${{ steps.image.outputs.version }}
+          cache-from: type=gha # 여기서 gha 는 Guthub Actions 용 캐시를 의미합니다.
+          cache-to: type=gha,mode=max            
 # add token    
   deploy:
     runs-on: ubuntu-latest
